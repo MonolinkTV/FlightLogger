@@ -10,7 +10,10 @@ class MainWindow(QMainWindow):
         super().__init__()
 
 
-mainApplication = QApplication()
+mainWindow = MainWindow()
+mainWindow.show()
+mainApplication = QApplication([])
+mainApplication.exec_()
 
 
 
