@@ -16,17 +16,18 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.show()
         self.setLayout(mainLayout)
         self.setStyleSheet(CSSSTARTER + "(33, 33, 33)")
-        self.showMaximized()
         self.setWindowTitle("Flight Logger")
         self.icon = QIcon("icon.png")
         self.setWindowIcon(self.icon)
-        newEntryBtn = QPushButton()
+
+        newEntryBtn = QPushButton(self)
         newEntryBtn.setGeometry(200, 200, 50, 25)
         newEntryBtn.setText("New Entry")
         newEntryBtn.setStyleSheet(CSSSTARTER + "(255, 255, 255)")
+
+        self.showMaximized()
 
 
 mainApplication = QApplication([])
