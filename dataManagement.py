@@ -5,13 +5,13 @@ import os
 
 
 class InvalidJson(Exception):
-	def __init__(self, path: str, _type: str, entry: str):
+	def __init__(self, path: str, _type: str, field: str):
 		self.path = path
 		self.type = _type
-		self.entry = entry
+		self.field = field
 
 	def __str__(self):
-		return f"InvalidJson: {self.type} at '{self.path}' for '{self.entry}'"
+		return f"InvalidJson: {self.type} at '{self.path}' for '{self.field}'"
 
 
 class Entry:
@@ -33,22 +33,22 @@ class Entry:
 		}
 
 	@classmethod
-	def fromJson(cls, data: dict, path="<Entry>"):
+	def fromJson(cls, data: dict):
 		date = datetime.now()
 		if "dateOrdinal" in data:
 			date = datetime.fromordinal(data["dateOrdinal"])
 		if "fromAirport" in data:
 			fromAirport = data["fromAirport"]
 		else:
-			raise InvalidJson(path, "MISSING", "fromAirport")
+			raise InvalidJson("Entry", "MISSING", "fromAirport")
 		if "toAirport" in data:
 			toAirport = data["toAirport"]
 		else:
-			raise InvalidJson(path, "MISSING", "toAirport")
+			raise InvalidJson("Entry", "MISSING", "toAirport")
 		if "aircraft" in data:
 			aircraft = data["aircraft"]
 		else:
-			raise InvalidJson(path, "MISSING", "aircraft")
+			raise InvalidJson("Entry", "MISSING", "aircraft")
 		return cls(fromAirport, toAirport, aircraft, date=date)
 
 
@@ -68,11 +68,11 @@ class SaveData:
 		}
 
 	@classmethod
-	def fromJson(cls, data: dict, path="<SaveData>"):
+	def fromJson(cls, data: dict):
 		entries = []
 		if "entries" in data:
 			for entry in data["entries"]:
-				entries.append(Entry.fromJson(entry, path))
+				entries.append(Entry.fromJson(entry))
 		return cls(entries=entries)
 
 	def save(self):
